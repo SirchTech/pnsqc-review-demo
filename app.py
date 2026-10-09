@@ -1,4 +1,4 @@
-from flask import Flask, abort, jsonify
+from flask import Flask, abort, jsonify, request
 
 from orders import db
 
@@ -11,3 +11,9 @@ def order(order_id):
     if found is None:
         abort(404)
     return jsonify(found)
+
+
+@app.get("/orders/search")
+def search():
+    customer = request.args.get("customer", "")
+    return jsonify(db.search_orders(customer))
